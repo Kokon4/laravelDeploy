@@ -24,3 +24,5 @@ after('deploy:failed', 'deploy:unlock');
 task('build', function () {
     run('cd {{release_path}} && build');
    });
+
+before('deploy:symlink', 'artisan:migrate');
