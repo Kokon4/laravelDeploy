@@ -7,9 +7,9 @@ require 'recipe/laravel.php';
 
 set('repository', 'https://github.com/Kokon4/laravelDeploy.git');
 
-add('shared_files', ['.env']);
-add('shared_dirs', ['storage', 'bootstrap/cache']);
-add('writable_dirs', ['storage', 'bootstrap/cache']);
+add('shared_files', []);
+add('shared_dirs', []);
+add('writable_dirs', []);
 
 // Hosts
 
@@ -24,5 +24,3 @@ after('deploy:failed', 'deploy:unlock');
 task('build', function () {
     run('cd {{release_path}} && build');
    });
-
-before('deploy:symlink', 'artisan:migrate');
