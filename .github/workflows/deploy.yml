@@ -13,27 +13,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
         with:
-          php-version: '8.2'
+          host: ${{ secrets.SERVER_IP }}
+          username: deployer
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /var/www/backoffice/current
+              php current/deploy.php deploy
 
-      - name: Install Composer dependencies
-        run: composer install --no-interaction --prefer-dist --optimize-autoloader
-
-      - name: Install Deployer
-        run: composer global require deployer/deployer
-
-      - name: Create SSH key file
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
-          ssh-keyscan ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
-
-      - name: Deploy to Server
-        env:
-          DEPLOYER_PATH: ~/.composer/vendor/bin/dep
-        run: |
-          ~/.composer/vendor/bin/dep deploy
