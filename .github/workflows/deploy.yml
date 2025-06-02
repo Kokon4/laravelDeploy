@@ -24,8 +24,21 @@ jobs:
       - name: Install Deployer
         run: composer global require deployer/deployer
 
+      - name: Create SSH key file
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Add server to known_hosts
+        run: |
+          ssh-keyscan -H $SERVER_IP >> ~/.ssh/known_hosts
+        env:
+          SERVER_IP: ${{ secrets.SERVER_IP }}
+
       - name: Deploy to Server
         run: ~/.composer/vendor/bin/dep deploy
         env:
-          DOTENV: ${{ secrets.DOTENV }}
-          DEPLOYER_IDENTITY_FILE: ${{ secrets.SSH_PRIVATE_KEY }}
+          DEPLOYER_ENV: ${{ secrets.DOTENV }}
