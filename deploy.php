@@ -33,5 +33,6 @@ task('reload:php-fpm', function () {
 
 before('deploy:shared', 'deploy:push_env');
 // Hooks
-after('deploy:failed', 'deploy:unlock','reload:php-fpm');
+after('deploy','reload:php-fpm');
+after('deploy:failed', 'deploy:unlock');
                             
