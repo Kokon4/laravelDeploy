@@ -27,6 +27,11 @@ task('deploy:push_env', function () {
     upload('.env', '{{deploy_path}}/shared/.env');
 });
 
+task('reload:php-fpm', function () {
+    run('sudo /etc/init.d/php8.3-fpm restart');
+});
+
 before('deploy:shared', 'deploy:push_env');
 // Hooks
-after('deploy:failed', 'deploy:unlock');
+after('deploy:failed', 'deploy:unlock','reload:php-fpm');
+                            
