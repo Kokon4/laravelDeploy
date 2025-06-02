@@ -18,3 +18,5 @@ Make sure that you have setup the environment properly. You will need minimum PH
 6. Run migrations `php artisan migrate`
 7. Start local server by executing `php artisan serve`
 8. Visit here [http://127.0.0.1:8000/products](http://127.0.0.1:8000/products) to test the application
+![image](https://github.com/user-attachments/assets/6bb819ed-6051-48ff-92de-261fa8e04082)
+![Uploading image.png…]()
