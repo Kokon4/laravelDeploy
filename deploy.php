@@ -1,26 +1,32 @@
 <?php
 namespace Deployer;
-
 require 'recipe/laravel.php';
 
 // Config
 
-set('repository', 'https://github.com/Kokon4/laravelDeploy.git');
+set ('application','todolist');
+set('repository', 'git@github.com:Kokon4/laravelDeploy.git');
 
-add('shared_files', []);
-add('shared_dirs', []);
-add('writable_dirs', []);
+set('keep_releases', 3);
+add('shared_files', ['.env']);
+add('shared_dirs', ['storage']);
+
+add('writable_dirs', ['storage', 'bootstrap/cache']);
+set('allow_anonymous_stats', false);
 
 // Hosts
 
-host('3.225.53.211')
-    ->set('remote_user', 'deployauto')
-    ->set('deploy_path', '~/var/www/autodeployercrud/html');
+host('34.237.244.74')
+    ->setRemoteUser('deployer')
+    ->setHostname('34.237.244.74')
+    ->set('deploy_path', '/var/www/backoffice')
+    ->set('identity_file', '~/.ssh/deployer');
 
+
+task('deploy:push_env', function () {
+    upload('.env', '{{deploy_path}}/shared/.env');
+});
+
+before('deploy:shared', 'deploy:push_env');
 // Hooks
-
 after('deploy:failed', 'deploy:unlock');
-
-task('build', function () {
-    run('cd {{release_path}} && build');
-   });
