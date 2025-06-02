@@ -11,7 +11,7 @@
 <body>   
 
     <div class="container">
-        <h3 class=" mt-3">Simple Laravel 11 Kico tutorial CRUD Application Tutorial - <a href="https://www.allphptricks.com/">AllPHPTricks.com</a></h3>
+        <h3 class=" mt-3"> Kico tutorial CRUD Application Tutorial - <a href="https://www.allphptricks.com/">AllPHPTricks.com</a></h3>
             @yield('content')
             <div class="row justify-content-center text-center mt-3">
                 <div class="col-md-12">
